@@ -3,236 +3,103 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>העולם החשמלי של ג'וש בן זריהם</title>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700;900&family=Heebo:wght@300;400;700;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <title>מגרש המשחקים המטורף למבוגרים</title>
     <style>
-        #world-age-clock {
-            font-size: 2em;
+        body {
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
             text-align: center;
+            padding: 50px;
+        }
+
+        h1 {
+            color: #e44d26;
+            text-shadow: 2px 2px 4px #000000;
+        }
+
+        .surprise-button {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .hidden-message {
             margin-top: 20px;
-            font-weight: bold;
+            padding: 10px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            display: none;
         }
 
-        .walking-goose {
+        #confetti-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .confetti {
             position: absolute;
-            width: 50px;
-            height: auto;
-            animation: walk 5s linear infinite;
+            width: 10px;
+            height: 10px;
+            background-color: #f00;
+            animation: confetti-fall linear;
         }
 
-        @keyframes walk {
-            0% { transform: translateX(-100px); }
-            100% { transform: translateX(calc(100vw + 100px)); }
+        @keyframes confetti-fall {
+            to {
+                transform: translateY(100vh);
+            }
         }
-
     </style>
 </head>
 <body>
+    <h1>ברוכים הבאים למגרש המשחקים המטורף למבוגרים!</h1>
 
-    <div id="sparks-container"></div>
+    <button class="surprise-button" onclick="showSurprise()">לחץ כאן להפתעה!</button>
 
-    <header>
-        <div class="neon-title">ג'וש בן זריהם</div>
-        <div class="subtitle">חשמלאי, מגדל אווזים, חופשי ברוחו</div>
-    </header>
-
-    <div id="world-age-clock"></div>
-
-    <div class="dashboard">
-        
-        <!-- Electrician Zone -->
-        <div class="card electrician-zone">
-            <h2>⚡ מעבדת החשמל</h2>
-            <p>מומחה למתח גבוה, נמוך וכל מה שביניהם בתקוע.</p>
-            <div class="notes-list" id="electric-tasks">
-            </div>
-            <div class="input-group">
-              <input type="text" id="electric-task-input" placeholder="הוסף משימה">
-              <button onclick="addElectricTask()">הוסף</button>
-            </div>
-        </div>
-
-        <!-- Goose Farm -->
-        <div class="card goose-farm">
-            <h2><span class="goose-icon">🦆</span> חוות האווזים</h2>
-            <p>האווזים של תקוע - איכות, חופש והרבה גע-גע.</p>
-            <div id="joke-display">"למה האווז עבר את הכביש? כי שם היה פחות חשמל סטטי."</div>
-            <button class="deviation-btn" onclick="newJoke()">הפתעה מהלול</button>
-        </div>
-
-        <!-- Freedom of Thought -->
-        <div class="card freedom-thought">
-            <h2>🧠 חופש המחשבה</h2>
-            <p>"סטיות הן רק דרכים יצירתיות לא להשתעמם."</p>
-            <div class="notes-list" id="thoughts">
-            </div>
-            <div class="input-group">
-              <input type="text" id="thought-input" placeholder="הוסף מחשבה">
-              <button onclick="addThought()">הוסף</button>
-            </div>
-        </div>
-
-        <!-- Brilliant Ideas -->
-        <div class="card brilliant-ideas">
-            <h2>💡 רעיונות מבריקים</h2>
-            <p>כאן נולדים הניצוצות שהופכים לעולם טוב יותר (או לפחות מעניין יותר).</p>
-            <div class="notes-list" id="ideas">
-            </div>
-            <div class="input-group">
-              <input type="text" id="idea-input" placeholder="הוסף רעיון">
-              <button onclick="addIdea()">הוסף</button>
-            </div>
-        </div>
-
-        <!-- Things to Discuss with Ze'evik -->
-        <div class="card zeevik-discussions">
-            <h2>🗣️ לדבר עם זאביק</h2>
-            <p>נושאים חשובים, שאלות קיומיות וסתם רכילות עם זאביק.</p>
-            <div class="notes-list" id="zeevik">
-            </div>
-            <div class="input-group">
-              <input type="text" id="zeevik-input" placeholder="הוסף נושא">
-              <button onclick="addZeevikTopic()">הוסף</button>
-            </div>
-        </div>
-
+    <div id="surprise-message" class="hidden-message">
+        <h2>בום! הופתעת!</h2>
+        <p>זהו רק התחלה... תהנה מהטירוף!</p>
     </div>
 
+    <div id="confetti-container"></div>
+
     <script>
-        // Electric Sparks Logic
-        const container = document.getElementById('sparks-container');
-        document.addEventListener('mousemove', (e) => {
-            if (Math.random() > 0.8) {
-                const spark = document.createElement('div');
-                spark.className = 'spark';
-                spark.style.left = e.pageX + 'px';
-                spark.style.top = e.pageY + 'px';
-                spark.style.backgroundColor = Math.random() > 0.5 ? '#00f2ff' : '#fefe00';
-                container.appendChild(spark);
-                setTimeout(() => spark.remove(), 800);
-            }
-        });
-
-        // Dynamic Jokes
-        const jokes = [
-            "למה חשמלאים תמיד שמחים? כי הם תמיד בעננים (high tension).",
-            "אווז אחד אומר לשני: 'אתה נראה קצת מתוח'. השני עונה: 'זה בגלל שאכלתי כבל חשמל'.",
-            "חופש המחשבה זה להאמין שהאווזים שולטים בעולם, אבל החשמל שולט בהם.",
-            "סטייה יצירתית: לצבוע את כל האווזים בכחול ניאון.",
-            "מה אמר הפיוז לעומס יתר? 'אתה שורף אותי'.",
-            "תקוע זה לא רק מקום, זה מצב תודעתי שבו הזרם תמיד זורם נכון."
-        ];
-
-        function newJoke() {
-            const display = document.getElementById('joke-display');
-            display.style.opacity = 0;
-            setTimeout(() => {
-                display.innerText = jokes[Math.floor(Math.random() * jokes.length)];
-                display.style.opacity = 1;
-            }, 300);
+        function showSurprise() {
+            const message = document.getElementById('surprise-message');
+            message.style.display = 'block';
+            startConfetti();
         }
 
-        // Dynamic Deviations
-        const deviations = [
-            "ללכת לעבודה עם נוצה של אווז מאחורי האוזן",
-            "להתקין שקע חשמלי בגובה 3 מטר רק בשביל האתגר",
-            "לשיר לאווזים שירי אופרה באיטלקית",
-            "לחשוב על פוליטיקה בזמן שמתקנים מזגן",
-            "להאמין שהאווזים הם סוכנים חשאיים של חברת החשמל"
-        ];
+        function startConfetti() {
+            const container = document.getElementById('confetti-container');
+            const colors = ['#f00', '#0f0', '#00f', '#ff0', '#0ff', '#f0f'];
 
-        function addDeviation() {
-            const list = document.getElementById('thoughts');
-            const newItem = document.createElement('div');
-            newItem.className = 'note-item';
-            newItem.innerText = "סטייה: " + deviations[Math.floor(Math.random() * deviations.length)];
-            list.prepend(newItem);
-            if (list.children.length > 5) list.lastElementChild.remove();
-        }
+            for (let i = 0; i < 100; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.animationDuration = Math.random() * 3 + 2 + 's';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                container.appendChild(confetti);
 
-        // Auto-spark
-        setInterval(() => {
-            const spark = document.createElement('div');
-            spark.className = 'spark';
-            spark.style.left = Math.random() * window.innerWidth + 'px';
-            spark.style.top = Math.random() * window.innerHeight + 'px';
-            container.appendChild(spark);
-            setTimeout(() => spark.remove(), 800);
-        }, 500);
-
-        // Local Storage Functions
-        function saveNotes(category, notes) {
-            localStorage.setItem(category, JSON.stringify(notes));
-        }
-
-        function loadNotes(category) {
-            const notes = localStorage.getItem(category);
-            return notes ? JSON.parse(notes) : [];
-        }
-
-        function displayNotes(category, listId) {
-            const notes = loadNotes(category);
-            const list = document.getElementById(listId);
-            list.innerHTML = ''; // Clear existing list
-            notes.forEach(note => {
-                const newItem = document.createElement('div');
-                newItem.className = 'note-item';
-                newItem.innerText = note;
-                list.appendChild(newItem);
-            });
-        }
-
-        // Add Note Functions
-        function addNote(category, inputId, listId) {
-            const input = document.getElementById(inputId);
-            const note = input.value.trim();
-            if (note !== '') {
-                const notes = loadNotes(category);
-                notes.push(note);
-                saveNotes(category, notes);
-                displayNotes(category, listId);
-                input.value = ''; // Clear input
+                confetti.addEventListener('animationend', () => confetti.remove());
             }
         }
-
-        // Electric Tasks
-        function addElectricTask() {
-            addNote('electricTasks', 'electric-task-input', 'electric-tasks');
-        }
-
-        // Thoughts
-        function addThought() {
-            addNote('thoughts', 'thought-input', 'thoughts');
-        }
-
-        // Ideas
-        function addIdea() {
-            addNote('ideas', 'idea-input', 'ideas');
-        }
-
-        // Zeevik Topics
-        function addZeevikTopic() {
-            addNote('zeevik', 'zeevik-input', 'zeevik');
-        }
-
-        // Load initial notes
-        displayNotes('electricTasks', 'electric-tasks');
-        displayNotes('thoughts', 'thoughts');
-        displayNotes('ideas', 'ideas');
-        displayNotes('zeevik', 'zeevik');
-
-        // World Age Clock
-        function updateWorldAgeClock() {
-            const creationDate = new Date(3761, 9, 7); // Jewish calendar creation date: Tishrei 1, 3761 BC
-            const now = new Date();
-            const diffInSeconds = Math.floor((now.getTime() - creationDate.getTime()) / 1000);
-            document.getElementById('world-age-clock').innerText = "הגיל של העולם: " + diffInSeconds + " שניות";
-        }
-
-        setInterval(updateWorldAgeClock, 1000);
-        updateWorldAgeClock(); // Initial call
-
     </script>
 </body>
 </html>
