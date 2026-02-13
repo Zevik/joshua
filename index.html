@@ -133,18 +133,6 @@
         <p id="morse-result">תוצאה:</p>
     </div>
 
-    <div class="calculator-container">
-        <h2>חידון חיות</h2>
-        <p>נסה לזהות את החיה לפי הקול!</p>
-        <audio id="animal-sound" controls>
-            <source src="" type="audio/mpeg">
-            Your browser does not support the audio element.
-        </audio>
-        <input type="text" id="animal-guess" placeholder="הכנס ניחוש">
-        <button onclick="checkAnimalGuess()">בדוק!</button>
-        <p id="animal-result">תוצאה:</p>
-    </div>
-
     <script>
         function showSurprise() {
             const message = document.getElementById('surprise-message');
@@ -219,41 +207,6 @@
             }
             document.getElementById('morse-result').textContent = "תוצאה: " + result;
         }
-
-        const animalSounds = [
-            { name: "Dog", sound: "sounds/dog.mp3" },
-            { name: "Cat", sound: "sounds/cat.mp3" },
-            { name: "Cow", sound: "sounds/cow.mp3" }
-        ];
-
-        let currentAnimalIndex;
-
-        function loadAnimalQuiz() {
-            currentAnimalIndex = Math.floor(Math.random() * animalSounds.length);
-            const animalSound = document.getElementById('animal-sound');
-            animalSound.src = animalSounds[currentAnimalIndex].sound;
-            animalSound.load();
-        }
-
-        function checkAnimalGuess() {
-            const guess = document.getElementById('animal-guess').value.trim().toLowerCase();
-            const correctAnimalName = animalSounds[currentAnimalIndex].name.toLowerCase();
-
-            if (guess === correctAnimalName) {
-                document.getElementById('animal-result').textContent = "צדקת! זה " + animalSounds[currentAnimalIndex].name + "!";
-            } else {
-                document.getElementById('animal-result').textContent = "לא נכון. נסה שוב!";
-            }
-
-            loadAnimalQuiz();
-        }
-
-        window.onload = loadAnimalQuiz;
     </script>
-
-    <audio id="animal-sound" controls>
-        <source src="" type="audio/mpeg">
-        Your browser does not support the audio element.
-    </audio>
 </body>
 </html>
