@@ -13,6 +13,19 @@
             margin-top: 20px;
             font-weight: bold;
         }
+
+        .walking-goose {
+            position: absolute;
+            width: 50px;
+            height: auto;
+            animation: walk 5s linear infinite;
+        }
+
+        @keyframes walk {
+            0% { transform: translateX(-100px); }
+            100% { transform: translateX(calc(100vw + 100px)); }
+        }
+
     </style>
 </head>
 <body>
@@ -85,6 +98,11 @@
         </div>
 
     </div>
+
+    <img src="goose.gif" alt="Walking Goose" class="walking-goose" style="top: 10%;">
+    <img src="goose.gif" alt="Walking Goose" class="walking-goose" style="top: 30%; animation-delay: 1s;">
+    <img src="goose.gif" alt="Walking Goose" class="walking-goose" style="top: 50%; animation-delay: 2s;">
+    <img src="goose.gif" alt="Walking Goose" class="walking-goose" style="top: 70%; animation-delay: 3s;">
 
     <script>
         // Electric Sparks Logic
