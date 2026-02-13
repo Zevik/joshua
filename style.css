@@ -4,46 +4,52 @@ body {
     color: #fff;
     margin: 0;
     padding: 0;
-    direction: rtl;
+    overflow-x: hidden; /* Prevent horizontal scroll */
 }
 
 header {
-    background-color: #212121;
+    background-color: #222;
     padding: 20px;
     text-align: center;
-    margin-bottom: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
 }
 
 .neon-title {
     font-family: 'Outfit', sans-serif;
-    font-size: 2.5em;
+    font-size: 3em;
     font-weight: 900;
     color: #fff;
     text-shadow: 0 0 10px #00f2ff, 0 0 20px #00f2ff, 0 0 30px #00f2ff;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
 }
 
 .subtitle {
     font-size: 1.2em;
     font-weight: 300;
-    color: #ddd;
+    color: #eee;
 }
 
 .dashboard {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
     padding: 20px;
     max-width: 1200px;
-    margin: 0 auto;
+    margin: 20px auto;
 }
 
 .card {
-    background-color: #212121;
+    background-color: #333;
+    border-radius: 10px;
     padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-    transition: transform 0.3s ease;
+    margin: 10px;
+    width: calc(30% - 20px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease-in-out;
+    min-height: 200px; /* Ensure consistent card height */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .card:hover {
@@ -58,57 +64,71 @@ header {
 
 .card p {
     font-size: 1em;
-    line-height: 1.6;
-    color: #eee;
-}
-
-.electrician-zone {
-    border-left: 5px solid #fefe00;
-}
-
-.goose-farm {
-    border-left: 5px solid #a8ff78;
-}
-
-.freedom-thought {
-    border-left: 5px solid #ff7e5f;
-}
-
-.brilliant-ideas {
-    border-left: 5px solid #7477ff;
-}
-
-.zeevik-discussions {
-    border-left: 5px solid #ffb347;
+    line-height: 1.4;
+    color: #ddd;
 }
 
 .goose-icon {
     font-size: 1.2em;
-    margin-right: 5px;
-}
-
-#joke-display {
-    font-style: italic;
-    margin-top: 15px;
-    color: #ddd;
-    transition: opacity 0.3s ease;
 }
 
 .deviation-btn {
-    background-color: #64b5f6;
-    color: #fff;
+    background-color: #6441a5; /* Twitch purple */
+    color: white;
     padding: 10px 15px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
-    margin-top: 10px;
+    transition: background-color 0.3s;
 }
 
 .deviation-btn:hover {
-    background-color: #2196f3;
+    background-color: #452d6e;
 }
 
+.notes-list {
+    margin-top: 10px;
+    padding: 0;
+    list-style: none;
+}
+
+.note-item {
+    background-color: #444;
+    color: #fff;
+    padding: 8px 12px;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    font-size: 0.9em;
+}
+
+.input-group {
+    display: flex;
+}
+
+.input-group input {
+    flex-grow: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 5px 0 0 5px;
+    background-color: #444;
+    color: #fff;
+}
+
+.input-group button {
+    background-color: #00f2ff;
+    color: #222;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 0 5px 5px 0;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.input-group button:hover {
+    background-color: #00b3cc;
+}
+
+/* Electric Sparks */
 #sparks-container {
     position: fixed;
     top: 0;
@@ -125,60 +145,27 @@ header {
     border-radius: 50%;
     background-color: #00f2ff;
     opacity: 0;
-    animation: sparkFade 0.8s forwards;
+    animation: sparkle 0.8s ease-out forwards;
 }
 
-@keyframes sparkFade {
-    0% {
-        opacity: 1;
-        transform: scale(1);
+@keyframes sparkle {
+    0% { opacity: 0; transform: scale(0); }
+    50% { opacity: 1; transform: scale(1.2); }
+    100% { opacity: 0; transform: scale(0.5); }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .dashboard {
+        flex-direction: column;
+        align-items: center;
     }
-    100% {
-        opacity: 0;
-        transform: scale(2);
+
+    .card {
+        width: 90%;
     }
-}
 
-/* List and Input Styles */
-.notes-list {
-    margin-top: 10px;
-    padding: 0;
-    list-style: none;
-}
-
-.note-item {
-    padding: 8px 12px;
-    margin-bottom: 5px;
-    background-color: #333;
-    border-radius: 5px;
-    color: #fff;
-    font-size: 0.9em;
-}
-
-.input-group {
-    display: flex;
-    margin-top: 15px;
-}
-
-.input-group input[type="text"] {
-    flex-grow: 1;
-    padding: 10px;
-    border: none;
-    border-radius: 5px 0 0 5px;
-    background-color: #444;
-    color: #fff;
-}
-
-.input-group button {
-    padding: 10px 15px;
-    border: none;
-    border-radius: 0 5px 5px 0;
-    background-color: #00f2ff;
-    color: #222;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.input-group button:hover {
-    background-color: #00b2cc;
+    .neon-title {
+        font-size: 2.5em;
+    }
 }
