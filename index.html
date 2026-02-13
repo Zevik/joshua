@@ -64,6 +64,40 @@
                 transform: translateY(100vh);
             }
         }
+
+        .calculator-container {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            text-align: left;
+            width: 300px;
+            display: inline-block;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #008CBA;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #005f6b;
+        }
     </style>
 </head>
 <body>
@@ -77,6 +111,39 @@
     </div>
 
     <div id="confetti-container"></div>
+
+    <div class="calculator-container">
+        <h2>מחשבון גימטריה</h2>
+        <input type="text" id="gematria-input" placeholder="הכנס טקסט">
+        <button onclick="calculateGematria()">חשב גימטריה</button>
+        <p id="gematria-result">תוצאה: </p>
+    </div>
+
+    <div class="calculator-container">
+        <h2>מחשבון אתבש</h2>
+        <input type="text" id="atbash-input" placeholder="הכנס טקסט">
+        <button onclick="calculateAtbash()">חשב אתבש</button>
+        <p id="atbash-result">תוצאה:</p>
+    </div>
+
+    <div class="calculator-container">
+        <h2>מכונה לכתב מורס</h2>
+        <input type="text" id="morse-input" placeholder="הכנס טקסט">
+        <button onclick="convertToMorse()">המר למורס</button>
+        <p id="morse-result">תוצאה:</p>
+    </div>
+
+    <div class="calculator-container">
+        <h2>חידון חיות</h2>
+        <p>נסה לזהות את החיה לפי הקול!</p>
+        <audio id="animal-sound" controls>
+            <source src="" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+        <input type="text" id="animal-guess" placeholder="הכנס ניחוש">
+        <button onclick="checkAnimalGuess()">בדוק!</button>
+        <p id="animal-result">תוצאה:</p>
+    </div>
 
     <script>
         function showSurprise() {
@@ -100,6 +167,93 @@
                 confetti.addEventListener('animationend', () => confetti.remove());
             }
         }
+
+        function calculateGematria() {
+            const input = document.getElementById('gematria-input').value;
+            let sum = 0;
+            for (let i = 0; i < input.length; i++) {
+                const char = input[i];
+                const code = char.charCodeAt(0);
+                if (code >= 1488 && code <= 1514) {
+                    sum += code - 1487;
+                }
+            }
+            document.getElementById('gematria-result').textContent = "תוצאה: " + sum;
+        }
+
+        function calculateAtbash() {
+            const input = document.getElementById('atbash-input').value;
+            let result = '';
+            for (let i = 0; i < input.length; i++) {
+                const char = input[i];
+                const code = char.charCodeAt(0);
+                if (code >= 1488 && code <= 1514) {
+                    result += String.fromCharCode(1514 - (code - 1488));
+                } else {
+                    result += char;
+                }
+            }
+            document.getElementById('atbash-result').textContent = "תוצאה: " + result;
+        }
+
+        function convertToMorse() {
+            const input = document.getElementById('morse-input').value.toUpperCase();
+            const morseCode = {
+                'A': '.-', 'B': '-...', 'C': '-.-.', 'D': '-..', 'E': '.', 'F': '..-.',
+                'G': '--.', 'H': '....', 'I': '..', 'J': '.---', 'K': '-.-', 'L': '.-..',
+                'M': '--', 'N': '-.', 'O': '---', 'P': '.--.', 'Q': '--.-', 'R': '.-.',
+                'S': '...', 'T': '-', 'U': '..-', 'V': '...-', 'W': '.--', 'X': '-..-',
+                'Y': '-.--', 'Z': '--..', '1': '.----', '2': '..---', '3': '...--',
+                '4': '....-', '5': '.....', '6': '-....', '7': '--...', '8': '---..',
+                '9': '----.', '0': '-----', ', ': '--..--', '.': '.-.-.-', '?': '..--..',
+                '/': '-..-.', '-': '-....-', '(': '-.--.', ')': '-.--.-'
+            };
+            let result = '';
+            for (let i = 0; i < input.length; i++) {
+                const char = input[i];
+                if (morseCode[char]) {
+                    result += morseCode[char] + ' ';
+                } else {
+                    result += '  ';
+                }
+            }
+            document.getElementById('morse-result').textContent = "תוצאה: " + result;
+        }
+
+        const animalSounds = [
+            { name: "Dog", sound: "sounds/dog.mp3" },
+            { name: "Cat", sound: "sounds/cat.mp3" },
+            { name: "Cow", sound: "sounds/cow.mp3" }
+        ];
+
+        let currentAnimalIndex;
+
+        function loadAnimalQuiz() {
+            currentAnimalIndex = Math.floor(Math.random() * animalSounds.length);
+            const animalSound = document.getElementById('animal-sound');
+            animalSound.src = animalSounds[currentAnimalIndex].sound;
+            animalSound.load();
+        }
+
+        function checkAnimalGuess() {
+            const guess = document.getElementById('animal-guess').value.trim().toLowerCase();
+            const correctAnimalName = animalSounds[currentAnimalIndex].name.toLowerCase();
+
+            if (guess === correctAnimalName) {
+                document.getElementById('animal-result').textContent = "צדקת! זה " + animalSounds[currentAnimalIndex].name + "!";
+            } else {
+                document.getElementById('animal-result').textContent = "לא נכון. נסה שוב!";
+            }
+
+            loadAnimalQuiz();
+        }
+
+        window.onload = loadAnimalQuiz;
     </script>
+
+    <audio id="animal-sound" controls>
+        <source src="" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
 </body>
 </html>
