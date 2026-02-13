@@ -5,196 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>העולם החשמלי של ג'וש בן זריהם</title>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700;900&family=Heebo:wght@300;400;700;900&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --electric-blue: #00f2ff;
-            --neon-yellow: #fefe00;
-            --goose-white: #ffffff;
-            --tekua-green: #2ecc71;
-            --deep-space: #0a0a0c;
-            --deviation-pink: #ff00ff;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Heebo', 'Outfit', sans-serif;
-        }
-
-        body {
-            background-color: var(--deep-space);
-            color: white;
-            overflow-x: hidden;
-            background-image: 
-                radial-gradient(circle at 20% 30%, rgba(0, 242, 255, 0.05) 0%, transparent 40%),
-                radial-gradient(circle at 80% 70%, rgba(255, 0, 255, 0.05) 0%, transparent 40%);
-        }
-
-        /* --- Animations --- */
-        @keyframes flicker {
-            0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% { opacity: 1; text-shadow: 0 0 10px var(--electric-blue), 0 0 20px var(--electric-blue); }
-            20%, 22%, 24%, 55% { opacity: 0.4; text-shadow: none; }
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0) rotate(0); }
-            50% { transform: translateY(-20px) rotate(5deg); }
-        }
-
-        @keyframes spark {
-            0% { transform: scale(1); opacity: 1; }
-            100% { transform: scale(2); opacity: 0; }
-        }
-
-        /* --- Header --- */
-        header {
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            background: linear-gradient(180deg, rgba(10,10,12,0) 0%, rgba(10,10,12,1) 100%);
-            position: relative;
-        }
-
-        .neon-title {
-            font-size: 5rem;
-            font-weight: 900;
-            color: var(--electric-blue);
-            text-transform: uppercase;
-            animation: flicker 3s infinite alternate;
-            text-align: center;
-            line-height: 1;
-        }
-
-        .subtitle {
-            font-size: 1.5rem;
-            color: var(--neon-yellow);
-            margin-top: 20px;
-            letter-spacing: 5px;
-            opacity: 0.8;
-        }
-
-        /* --- Grid Layout --- */
-        .dashboard {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            padding: 50px;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .card {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 24px;
-            padding: 30px;
-            backdrop-filter: blur(10px);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .card:hover {
-            transform: translateY(-10px) scale(1.02);
-            border-color: var(--electric-blue);
-            box-shadow: 0 20px 40px rgba(0, 242, 255, 0.1);
-        }
-
-        .card h2 {
-            font-size: 2rem;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        /* --- Specific Rubrics --- */
-        .electrician-zone { border-left: 5px solid var(--electric-blue); }
-        .goose-farm { border-left: 5px solid var(--tekua-green); }
-        .freedom-thought { border-left: 5px solid var(--deviation-pink); }
-
-        .goose-icon {
-            font-size: 3rem;
-            animation: float 4s infinite ease-in-out;
-            display: inline-block;
-        }
-
-        /* --- Dynamic Components --- */
-        .deviation-btn {
-            background: linear-gradient(45deg, var(--deviation-pink), #ff0055);
-            color: white;
-            border: none;
-            padding: 15px 30px;
-            border-radius: 50px;
-            font-size: 1.2rem;
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.3s;
-            margin-top: 20px;
-            box-shadow: 0 10px 20px rgba(255, 0, 255, 0.3);
-        }
-
-        .deviation-btn:hover {
-            transform: scale(1.1);
-            box-shadow: 0 15px 30px rgba(255, 0, 255, 0.5);
-        }
-
-        .notes-list {
-            list-style: none;
-            margin-top: 15px;
-        }
-
-        .note-item {
-            background: rgba(255, 255, 255, 0.1);
-            margin-bottom: 10px;
-            padding: 12px 20px;
-            border-radius: 12px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            animation: slideIn 0.5s ease-out;
-        }
-
-        @keyframes slideIn {
-            from { transform: translateX(50px); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
-
-        #joke-display {
-            font-style: italic;
-            color: var(--neon-yellow);
-            min-height: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            font-size: 1.2rem;
-        }
-
-        /* --- Electric Sparks Background --- */
-        #sparks-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: -1;
-        }
-
-        .spark {
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            background: var(--electric-blue);
-            border-radius: 50%;
-            animation: spark 0.8s linear forwards;
-        }
-
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
@@ -212,8 +23,10 @@
             <h2>⚡ מעבדת החשמל</h2>
             <p>מומחה למתח גבוה, נמוך וכל מה שביניהם בתקוע.</p>
             <div class="notes-list" id="electric-tasks">
-                <div class="note-item">תיקון לוח חשמל במשפחת כהן ⚡</div>
-                <div class="note-item">בדיקת הארקה בדיר האווזים 🦆</div>
+            </div>
+            <div class="input-group">
+              <input type="text" id="electric-task-input" placeholder="הוסף משימה">
+              <button onclick="addElectricTask()">הוסף</button>
             </div>
         </div>
 
@@ -230,10 +43,35 @@
             <h2>🧠 חופש המחשבה</h2>
             <p>"סטיות הן רק דרכים יצירתיות לא להשתעמם."</p>
             <div class="notes-list" id="thoughts">
-                <div class="note-item">מחשבה: האם אווזים חולמים על זרם חילופין?</div>
-                <div class="note-item">תזכורת: לתת דרור לסטיות היום בצהריים</div>
             </div>
-            <button class="deviation-btn" onclick="addDeviation()">צור סטייה חדשה</button>
+            <div class="input-group">
+              <input type="text" id="thought-input" placeholder="הוסף מחשבה">
+              <button onclick="addThought()">הוסף</button>
+            </div>
+        </div>
+
+        <!-- Brilliant Ideas -->
+        <div class="card brilliant-ideas">
+            <h2>💡 רעיונות מבריקים</h2>
+            <p>כאן נולדים הניצוצות שהופכים לעולם טוב יותר (או לפחות מעניין יותר).</p>
+            <div class="notes-list" id="ideas">
+            </div>
+            <div class="input-group">
+              <input type="text" id="idea-input" placeholder="הוסף רעיון">
+              <button onclick="addIdea()">הוסף</button>
+            </div>
+        </div>
+
+        <!-- Things to Discuss with Ze'evik -->
+        <div class="card zeevik-discussions">
+            <h2>🗣️ לדבר עם זאביק</h2>
+            <p>נושאים חשובים, שאלות קיומיות וסתם רכילות עם זאביק.</p>
+            <div class="notes-list" id="zeevik">
+            </div>
+            <div class="input-group">
+              <input type="text" id="zeevik-input" placeholder="הוסף נושא">
+              <button onclick="addZeevikTopic()">הוסף</button>
+            </div>
         </div>
 
     </div>
@@ -299,6 +137,67 @@
             container.appendChild(spark);
             setTimeout(() => spark.remove(), 800);
         }, 500);
+
+        // Local Storage Functions
+        function saveNotes(category, notes) {
+            localStorage.setItem(category, JSON.stringify(notes));
+        }
+
+        function loadNotes(category) {
+            const notes = localStorage.getItem(category);
+            return notes ? JSON.parse(notes) : [];
+        }
+
+        function displayNotes(category, listId) {
+            const notes = loadNotes(category);
+            const list = document.getElementById(listId);
+            list.innerHTML = ''; // Clear existing list
+            notes.forEach(note => {
+                const newItem = document.createElement('div');
+                newItem.className = 'note-item';
+                newItem.innerText = note;
+                list.appendChild(newItem);
+            });
+        }
+
+        // Add Note Functions
+        function addNote(category, inputId, listId) {
+            const input = document.getElementById(inputId);
+            const note = input.value.trim();
+            if (note !== '') {
+                const notes = loadNotes(category);
+                notes.push(note);
+                saveNotes(category, notes);
+                displayNotes(category, listId);
+                input.value = ''; // Clear input
+            }
+        }
+
+        // Electric Tasks
+        function addElectricTask() {
+            addNote('electricTasks', 'electric-task-input', 'electric-tasks');
+        }
+
+        // Thoughts
+        function addThought() {
+            addNote('thoughts', 'thought-input', 'thoughts');
+        }
+
+        // Ideas
+        function addIdea() {
+            addNote('ideas', 'idea-input', 'ideas');
+        }
+
+        // Zeevik Topics
+        function addZeevikTopic() {
+            addNote('zeevik', 'zeevik-input', 'zeevik');
+        }
+
+        // Load initial notes
+        displayNotes('electricTasks', 'electric-tasks');
+        displayNotes('thoughts', 'thoughts');
+        displayNotes('ideas', 'ideas');
+        displayNotes('zeevik', 'zeevik');
 
     </script>
 </body>
